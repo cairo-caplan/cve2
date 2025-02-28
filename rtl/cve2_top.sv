@@ -56,6 +56,8 @@ module cve2_top import cve2_pkg::*; #(
 
   // Debug Interface
   input  logic                         debug_req_i,
+  input  logic [31:0]                  dm_halt_addr_i,
+  input  logic [31:0]                  dm_exception_addr_i,
   output crash_dump_t                  crash_dump_o,
 
   // RISC-V Formal Interface
