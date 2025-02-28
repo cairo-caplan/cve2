@@ -105,7 +105,7 @@ module cve2_top import cve2_pkg::*; #(
   localparam int unsigned PMPNumRegions    = 4;
 
   // Trigger support
-  localparam bit          DbgTriggerEn     = 1'b1;
+  localparam bit          DbgTriggerEn     = 1'b1; // DEBUG_TRIGGER_EN in CVE4
   localparam int unsigned DbgHwBreakNum    = 1;
 
   // Bit manipulation extension
