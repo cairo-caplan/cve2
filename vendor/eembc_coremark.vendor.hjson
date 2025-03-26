@@ -1,0 +1,14 @@
+// Copyright 2025 OpenHW Group.
+// Licensed under the Apache License, Version 2.0, see LICENSE for details.
+// SPDX-License-Identifier: Apache-2.0
+{
+  name: "eembc_coremark",
+  target_dir: "eembc_coremark",
+
+  upstream: {
+    url: "https://github.com/eembc/coremark",
+    rev: "main",
+  },
+
+  patch_dir: "patches/eembc_coremark"
+}
