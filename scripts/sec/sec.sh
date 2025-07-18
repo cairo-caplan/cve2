@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2023 OpenHW Group
+# Copyright 2023-2025 OpenHW Foundation
 #
 # Licensed under the Solderpad Hardware Licence, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -100,13 +100,21 @@ elif [[ "${target_tool}" == "mentor" ]]; then
 
 elif [[ "${target_tool}" == "yosys" ]]; then
     echo "Using Yosys EQY"
-    eqy -f yosys/sec.eqy -j $(($(nproc)/2)) -d ${report_dir} &> ${report_dir}/output.yosys.log
+
+    if ! [ -x "$(command -v eqy)" ]; then
+        echo "Yosys EQY (eqy) could not be found"
+        exit 1
+    fi
+
+    eqy -f yosys/sec.eqy -j $(($(nproc)/2)) -d ${report_dir} &> /dev/null
+    mv ${report_dir}/logfile.txt ${report_dir}/output.yosys.log
     rm yosys/golden_io.txt
 
     if [ -f "${report_dir}/PASS" ]; then 
         RESULT=0
     elif [ -f "${report_dir}/FAIL" ]; then 
         RESULT=1
+        echo "Check ${report_dir}/output.yosys.log"
     else
         echo "Failed to run Yosys EQY"
         exit 1
