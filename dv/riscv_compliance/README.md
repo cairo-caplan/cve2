@@ -1,16 +1,30 @@
-Ibex simulation for RISC-V Compliance Testing
+CVE2 simulation for RISC-V Compliance Testing
 =============================================
 
-This directory contains a compiled simulation of Ibex to be used as target
+---
+**NOTE**
+
+**This document is NOT up-to-date**.
+
+The RISC-V Compliance check, originally referred in this document made for 
+lowRISC's Ibex core, [was made obsolete](https://github.com/riscv-non-isa/riscv-arch-test/tree/old-framework-2.x) 
+as of 1st May 2022 in favour of the [RISC-V Architectural Test Framework (RISCOF)](https://github.com/riscv-software-src/riscof).
+
+At the time of writing, we are working to adapt the instructions of this 
+document to work with the RISCOF project - see issue [#221](https://github.com/openhwgroup/cve2/issues/221) of the repository.
+
+---
+
+
+This directory contains a compiled simulation of CVE2 to be used as target
 in the [RISC-V Compliance Test](https://github.com/riscv/riscv-compliance).
-In addition to Ibex itself, it contains a 64 kB RAM and a memory-mapped helper
+In addition to CVE2 itself, it contains a 64 kB RAM and a memory-mapped helper
 module to interact with the software, e.g. to dump out the test signature and to
 end the simulation.
 
-The simulation is designed for Verilator, but can be adapted to other simulators
-if needed.
+The simulation is designed for Verilator, but can be adapted to other simulators if needed.
 
-How to run RISC-V Compliance on Ibex
+How to run RISC-V Compliance on CVE2
 ------------------------------------
 
 0. Check your prerequisites
@@ -33,21 +47,23 @@ How to run RISC-V Compliance on Ibex
    https://www.veripool.org/projects/verilator/wiki/Installing for installation
    instructions.
 
-1. Build a simulation of Ibex
+1. Build a simulation of CVE2
 
    ```sh
-   cd $IBEX_REPO_BASE
-   fusesoc --cores-root=. run --target=sim --setup --build lowrisc:cve2:cve2_riscv_compliance --RV32E=0 --RV32M=cve2_pkg::RV32MNone
+   cd $CVE2_REPO_BASE
+   fusesoc --cores-root=. run --target=sim --setup --build openhwgroup:cve2:cve2_riscv_compliance --RV32E=0 --RV32M=cve2_pkg::RV32MNone
    ```
 
    You can use the two compile-time options `--RV32M` and `--RV32E` to
    enable/disable the M and E ISA extensions, respectively.
 
-   You can now find the compiled simulation at `build/lowrisc_cve2_cve2_riscv_compliance_0.1/sim-verilator/Vcve2_riscv_compliance`.
+   You can now find the compiled simulation at `build/openhwgroup_cve2_cve2_riscv_compliance_0.1/sim-verilator/Vcve2_riscv_compliance`.
 
 2. Get the RISC-V Compliance test suite
 
-   The upstream RISC-V compliance test suite supports Ibex out of the box.
+   The upstream RISC-V compliance test suite supports Ibex out of the box, 
+   but still need to be adapted to the CVE2.
+   <!-- TODO The steps below still need to be adapted and tested for the CVE2 -->
 
    ```
    git clone https://github.com/riscv/riscv-compliance.git
@@ -58,13 +74,13 @@ How to run RISC-V Compliance on Ibex
    ```sh
    cd $RISCV_COMPLIANCE_REPO_BASE
    # adjust to match your compiler name
-   export RISCV_PREFIX=riscv32-unknown-elf-
+   export RISCV_PREFIX=riscv32-unknown-elf- # or riscv32-corev-elf-
    # give the absolute path to the simulation binary compiled in step 1
-   export TARGET_SIM=/path/to/your/Vcve2_riscv_compliance
+   # e.g. export TARGET_SIM=/path/to/your/Vcve2_riscv_compliance
+   export TARGET_SIM=../../build/openhwgroup_cve2_cve2_riscv_compliance_0.1/sim-verilator/Vcve2_riscv_compliance 
 
    export RISCV_DEVICE=rv32imc
-   export RISCV_TARGET=ibex
-
+   export RISCV_TARGET=cve2 # ibex
    # Note: rv32imc does not include the I and M extension tests
    make RISCV_ISA=rv32i && make RISCV_ISA=rv32im && make RISCV_ISA=rv32imc && \
       make RISCV_ISA=rv32Zicsr && make RISCV_ISA=rv32Zifencei
@@ -76,7 +92,7 @@ Compliance test suite system
 This directory contains a system designed especially to run the compliance test
 suite. The system consists of
 
-- an Ibex core,
+- a CVE2 core,
 - a bus,
 - a single-port memory for data and instructions,
 - a bus-attached test utility.
