@@ -117,3 +117,12 @@ test-cfg:
 .PHONY: python-lint
 python-lint:
 	$(MAKE) -C util lint
+
+# Sequential Equivalence Checking
+.PHONY: sec
+sec:
+	./scripts/sec/sec.sh -t yosys
+
+.PHONY: clean
+clean:
+	-rm -rf ./build ./formal/riscv-formal/build
