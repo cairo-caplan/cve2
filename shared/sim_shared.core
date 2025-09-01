@@ -1,8 +1,9 @@
 CAPI=2:
+# Copyright (c) 2025 Eclipse Foundation
 # Copyright lowRISC contributors.
 # Licensed under the Apache License, Version 2.0, see LICENSE for details.
 # SPDX-License-Identifier: Apache-2.0
-name: "lowrisc:cve2:sim_shared"
+name: "openhwgroup:cve2:sim_shared"
 description: "Collection of useful RTL for building simulations"
 filesets:
   files_sim_sv:
