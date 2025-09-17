@@ -1,5 +1,5 @@
 // Copyright lowRISC contributors.
-// Copyright 2025 OpenHW Group.
+// Copyright (c) 2025 Eclipse Foundation
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -16,17 +16,10 @@ module cve2_riscv_compliance (
   input IO_RST_N
 );
 
-  parameter bit          PMPEnable      = 1'b0;
-  parameter int unsigned PMPGranularity = 0;
-  parameter int unsigned PMPNumRegions  = 4;
-  parameter bit RV32E                   = 1'b0;
-  parameter cve2_pkg::rv32m_e RV32M     = cve2_pkg::RV32MFast;
-  parameter cve2_pkg::rv32b_e RV32B     = cve2_pkg::RV32BNone;
-  parameter cve2_pkg::regfile_e RegFile = cve2_pkg::RegFileFF;
-  parameter bit ICache                  = 1'b0;
-  parameter bit ICacheECC               = 1'b0;
-  parameter bit SecureIbex              = 1'b0;
-  parameter bit ICacheScramble          = 1'b0;
+  parameter int unsigned MHPMCounterNum   = 10;
+  parameter int unsigned MHPMCounterWidth = 40;
+  parameter bit RV32E                     = 1'b0;
+  parameter cve2_pkg::rv32m_e RV32M       = cve2_pkg::RV32MFast;
 
   logic clk_sys, rst_sys_n;
 
@@ -112,23 +105,16 @@ module cve2_riscv_compliance (
   );
 
   cve2_top_tracing #(
-      .PMPEnable       (PMPEnable       ),
-      .PMPGranularity  (PMPGranularity  ),
-      .PMPNumRegions   (PMPNumRegions   ),
+      .MHPMCounterNum  (MHPMCounterNum  ),
+      .MHPMCounterWidth(MHPMCounterWidth),
       .RV32E           (RV32E           ),
-      .RV32M           (RV32M           ),
-      .RV32B           (RV32B           ),
-      .RegFile         (RegFile         ),
-      .ICache          (ICache          ),
-      .ICacheECC       (ICacheECC       ),
-      .SecureIbex      (SecureIbex      ),
-      .ICacheScramble  (ICacheScramble  )
+      .RV32M           (RV32M           )
     ) u_top (
       .clk_i                  (clk_sys                ),
       .rst_ni                 (rst_sys_n              ),
 
       .test_en_i              ('b0                    ),
-      .scan_rst_ni            (1'b1                   ),
+      // .scan_rst_ni            (1'b1                   ),
       .ram_cfg_i              ('b0                    ),
 
       .hart_id_i              (32'b0                  ),
@@ -140,7 +126,7 @@ module cve2_riscv_compliance (
       .instr_rvalid_i         (host_rvalid[CoreI]     ),
       .instr_addr_o           (host_addr[CoreI]       ),
       .instr_rdata_i          (host_rdata[CoreI]      ),
-      .instr_rdata_intg_i     ('0                     ),
+      // .instr_rdata_intg_i     ('0                     ),
       .instr_err_i            (host_err[CoreI]        ),
 
       .data_req_o             (host_req[CoreD]        ),
@@ -150,10 +136,24 @@ module cve2_riscv_compliance (
       .data_be_o              (host_be[CoreD]         ),
       .data_addr_o            (host_addr[CoreD]       ),
       .data_wdata_o           (host_wdata[CoreD]      ),
-      .data_wdata_intg_o      (                       ),
+      // .data_wdata_intg_o      (                       ),
       .data_rdata_i           (host_rdata[CoreD]      ),
-      .data_rdata_intg_i      ('0                     ),
+      // .data_rdata_intg_i      ('0                     ),
       .data_err_i             (host_err[CoreD]        ),
+
+      .x_issue_valid_o        (                       ),
+      .x_issue_ready_i        ('0                     ),
+      .x_issue_req_o          (                       ),
+      .x_issue_resp_i         ('0                     ),
+
+      .x_register_o           (                       ),
+
+      .x_commit_valid_o       (                       ),
+      .x_commit_o             (                       ),
+
+      .x_result_valid_i       ('0                     ),
+      .x_result_ready_o       (                       ),
+      .x_result_i             ('0                     ),
 
       .irq_software_i         (1'b0                   ),
       .irq_timer_i            (1'b0                   ),
@@ -161,22 +161,22 @@ module cve2_riscv_compliance (
       .irq_fast_i             (15'b0                  ),
       .irq_nm_i               (1'b0                   ),
 
-      .scramble_key_valid_i   ('0                     ),
-      .scramble_key_i         ('0                     ),
-      .scramble_nonce_i       ('0                     ),
-      .scramble_req_o         (                       ),
+      // .scramble_key_valid_i   ('0                     ),
+      // .scramble_key_i         ('0                     ),
+      // .scramble_nonce_i       ('0                     ),
+      // .scramble_req_o         (                       ),
 
       .debug_req_i            ('b0                    ),
       .debug_halted_o         (                       ),
       .dm_halt_addr_i         (32'h00000000           ),
       .dm_exception_addr_i    (32'h00000000           ),
       .crash_dump_o           (                       ),
-      .double_fault_seen_o    (                       ),
+      // .double_fault_seen_o    (                       ),
 
-      .fetch_enable_i         (cve2_pkg::FetchEnableOn),
-      .alert_minor_o          (                       ),
-      .alert_major_internal_o (                       ),
-      .alert_major_bus_o      (                       ),
+      .fetch_enable_i         (1'b1                   ),
+      // .alert_minor_o          (                       ),
+      // .alert_major_internal_o (                       ),
+      // .alert_major_bus_o      (                       ),
       .core_sleep_o           (                       )
     );
 

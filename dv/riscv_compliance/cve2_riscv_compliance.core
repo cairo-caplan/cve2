@@ -1,14 +1,15 @@
 CAPI=2:
+# Copyright (c) 2025 Eclipse Foundation
 # Copyright lowRISC contributors.
 # Licensed under the Apache License, Version 2.0, see LICENSE for details.
 # SPDX-License-Identifier: Apache-2.0
-name: "lowrisc:cve2:cve2_riscv_compliance:0.1"
-description: "Ibex simulation for RISC-V compliance testing (using Verilator)"
+name: "openhwgroup:cve2:cve2_riscv_compliance:0.1"
+description: "CVE2 simulation for RISC-V compliance testing (using Verilator)"
 filesets:
   files_sim:
     depend:
-      - lowrisc:cve2:cve2_top_tracing
-      - lowrisc:cve2:sim_shared
+      - openhwgroup:cve2:cve2_top_tracing
+      - openhwgroup:cve2:sim_shared
     files:
       - rtl/cve2_riscv_compliance.sv
       - rtl/riscv_testutil.sv
@@ -35,59 +36,69 @@ parameters:
     paramtype: vlogdefine
     description: "RV32M implementation parameter enum. See the cve2_pkg::rv32m_e enum in cve2_pkg.sv for permitted values."
 
-  RV32B:
-    datatype: str
-    default: cve2_pkg::RV32BNone
-    paramtype: vlogdefine
-    description: "Bitmanip implementation parameter enum. See the cve2_pkg::rv32b_e enum in cve2_pkg.sv for permitted values."
+#  RV32B:
+#    datatype: str
+#    default: cve2_pkg::RV32BNone
+#    paramtype: vlogdefine
+#    description: "Bitmanip implementation parameter enum. See the cve2_pkg::rv32b_e enum in cve2_pkg.sv for permitted values."
 
-  RegFile:
-    datatype: str
-    default: cve2_pkg::RegFileFF
-    paramtype: vlogdefine
-    description: "Register file implementation parameter enum. See the cve2_pkg::regfile_e enum in cve2_pkg.sv for permitted values."
+#  RegFile:
+#    datatype: str
+#    default: cve2_pkg::RegFileFF
+#    paramtype: vlogdefine
+#    description: "Register file implementation parameter enum. See the cve2_pkg::regfile_e enum in cve2_pkg.sv for permitted values."
 
-  ICache:
+  MHPMCounterNum:
     datatype: int
-    default: 0
+    default: 10
     paramtype: vlogparam
-    description: "Enable instruction cache"
 
-  ICacheECC:
+  MHPMCounterWidth:
     datatype: int
-    default: 0
+    default: 40
     paramtype: vlogparam
-    description: "Enable ECC protection in instruction cache"
 
-  PMPEnable:
-    datatype: int
-    default: 0
-    paramtype: vlogparam
-    description: "Enable PMP"
+#  ICache:
+#    datatype: int
+#    default: 0
+#    paramtype: vlogparam
+#    description: "Enable instruction cache"
 
-  PMPGranularity:
-    datatype: int
-    default: 0
-    paramtype: vlogparam
-    description: "Granularity of NAPOT range, 0 = 4 byte, 1 = byte, 2 = 16 byte, 3 = 32 byte etc"
+#  ICacheECC:
+#    datatype: int
+#    default: 0
+#    paramtype: vlogparam
+#    description: "Enable ECC protection in instruction cache"
 
-  PMPNumRegions:
-    datatype: int
-    default: 4
-    paramtype: vlogparam
-    description: "Number of PMP regions"
+#  PMPEnable:
+#    datatype: int
+#    default: 0
+#    paramtype: vlogparam
+#    description: "Enable PMP"
 
-  SecureIbex:
-    datatype: int
-    paramtype: vlogparam
-    default: 0
-    description: "Enables security hardening features (EXPERIMENTAL) [0/1]"
+#  PMPGranularity:
+#    datatype: int
+#    default: 0
+#    paramtype: vlogparam
+#    description: "Granularity of NAPOT range, 0 = 4 byte, 1 = byte, 2 = 16 byte, 3 = 32 byte etc"
 
-  ICacheScramble:
-    datatype: int
-    paramtype: vlogparam
-    default: 0
-    description: "Enables ICache scrambling feature (EXPERIMENTAL) [0/1]"
+#  PMPNumRegions:
+#    datatype: int
+#    default: 4
+#    paramtype: vlogparam
+#    description: "Number of PMP regions"
+
+#  SecureCVE2:
+#    datatype: int
+#    paramtype: vlogparam
+#    default: 0
+#    description: "Enables security hardening features (EXPERIMENTAL) [0/1]"
+
+#  ICacheScramble:
+#    datatype: int
+#    paramtype: vlogparam
+#    default: 0
+#    description: "Enables ICache scrambling feature (EXPERIMENTAL) [0/1]"
 
 targets:
   sim:
@@ -98,15 +109,17 @@ targets:
     parameters:
       - RV32E
       - RV32M
-      - RV32B
-      - RegFile
-      - ICache
-      - ICacheECC
-      - PMPEnable
-      - PMPGranularity
-      - PMPNumRegions
-      - SecureIbex
-      - ICacheScramble
+#     - RV32B
+#     - RegFile
+      - MHPMCounterNum
+      - MHPMCounterWidth
+#     - ICache
+#     - ICacheECC
+#     - PMPEnable
+#     - PMPGranularity
+#     - PMPNumRegions
+#     - SecureCVE2
+#     - ICacheScramble
     toplevel: cve2_riscv_compliance
     tools:
       verilator:
@@ -119,6 +132,9 @@ targets:
           - '--trace-structs'
           - '--trace-params'
           - '--trace-max-array 1024'
-          - '-CFLAGS "-std=c++11 -Wall -DVM_TRACE_FMT_FST -DTOPLEVEL_NAME=cve2_riscv_compliance -g"'
+          - '-CFLAGS "-std=c++14 -Wall -DVM_TRACE_FMT_FST -DTOPLEVEL_NAME=cve2_riscv_compliance -g"'
           - '-LDFLAGS "-pthread -lutil -lelf"'
-          - "-Wall"
+          # - "-Wall"
+          - "-Wno-COMBDLY"
+          - "-Wno-WIDTHEXPAND"
+          - "-Wno-WIDTHTRUNC"

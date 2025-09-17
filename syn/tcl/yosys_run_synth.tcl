@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Eclipse Foundation
 # Copyright lowRISC contributors.
 # Licensed under the Apache License, Version 2.0, see LICENSE for details.
 # SPDX-License-Identifier: Apache-2.0
@@ -14,11 +15,11 @@ if { $lr_synth_timing_run } {
   write_sdc_out $lr_synth_sdc_file_in $lr_synth_sdc_file_out
 }
 
-yosys "read_verilog -defer -sv ./rtl/cve2_clock_gating.v $lr_synth_out_dir/generated/*.v"
+yosys "read_verilog -defer -sv ../rtl/cve2_clock_gate.v $lr_synth_out_dir/generated/*.v"
 
-if { $lr_synth_cve2_writeback_stage } {
-  yosys "chparam -set WritebackStage 1 $lr_synth_top_module"
-}
+# if { $lr_synth_cve2_writeback_stage } {
+#   yosys "chparam -set WritebackStage 1 $lr_synth_top_module"
+# }
 
 yosys "chparam -set RV32M $lr_synth_cve2_multiplier $lr_synth_top_module"
 
