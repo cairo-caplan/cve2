@@ -738,14 +738,6 @@ integrated in the continuous integration flow.
 |        | Metric details to be supplied later.                        |
 .. TODO PPA-30 Clock frequency requirement on a FPGA implementation
 +--------+-------------------------------------------------------------+
-| PPA-50 | CV32E20 should operate at more than ? MHz in the            |
-|        | CV32E20\_? configuration on 16-nm FFT technology in the     |
-|        | worst-case frequency corner with the fastest threshold      |
-|        | voltage.                                                    |
-|        |                                                             |
-|        | Metric details to be supplied later.                        |
-.. TODO PPA-50 Clock frequency requirement on an (16nm FinFET) ASIC implementation
-+--------+-------------------------------------------------------------+
 
 Physical design rules
 ---------------------
