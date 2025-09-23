@@ -58,7 +58,7 @@ The specification is complemented by a :ref:`user's guide<cve2_user_guide>`.
 
 A `List of Abbreviations`_ is available at the end of this document.
 
-This development is co-sponsored by NXP and Intrinsix ( acquired by Cadence Design Systems in 2023...), and by the EU-funded `TRISTAN project <https://tristan-project.eu>`_.
+This development is co-sponsored by NXP, Intrinsix (acquired by Cadence Design Systems in 2023) and by the EU-funded `TRISTAN project <https://tristan-project.eu>`_.
 
 Scope
 =====
@@ -101,6 +101,8 @@ As displayed in the above figure, the IP comprises:
 
    -  Support for basic set of Configuration & Status Registers (:term:`CSRs<CSR>`)
 
+   -  Optional support for the Core-V eXtension Interface (:term:`CV-X-IF`) [X-IF]_
+
 At the :term:`coreplex` design level, the following functions are added to the
 processor core:
 
@@ -131,25 +133,40 @@ The following topics are beyond the scope of this specification:
 -  Other features included in the testbench (main memory, firmware,
    interconnect…), the coverage of which are not measured
 
-Golden configurations
----------------------
+Configurations
+--------------
+
+The CVE2 member of CORE-V family or RISC-V cores, under its currently 
+unique named cv32e20, can be set into one of the many configurations 
+listed below, varying on the destination hardware target and the presence 
+of the :term:`CV-X-IF` support.
+
+
++-----------------------------+-----------------+-------------------+-----------+-----------+---------+
+| **Configuration**           | **Target**      | **RV32{E,I} ISA** |  Golden   |  CV-X-IF  | **TRL** |
++-----------------------------+-----------------+-------------------+-----------+-----------+---------+
+| cv32e20_emc_fpga            | :term:`FPGA`    | RV32EMC           |  Yes      |  No       |         |
++-----------------------------+-----------------+-------------------+-----------+-----------+---------+
+| cv32e20_imc_fpga            | FPGA            | RV32IMC           |  Yes      |  No       |         |
++-----------------------------+-----------------+-------------------+-----------+-----------+---------+
+| cv32e20_emc_asic            | :term:`ASIC`    | RV32EMC           |  Yes      |  No       |         |
++-----------------------------+-----------------+-------------------+-----------+-----------+---------+
+| cv32e20_imc_asic            | ASIC            | RV32IMC           |  Yes      |  No       |         |
++-----------------------------+-----------------+-------------------+-----------+-----------+---------+
+| cv32e20x_emc_fpga           | FPGA            | RV32EMC           |  No       |  Yes      |         |
++-----------------------------+-----------------+-------------------+-----------+-----------+---------+
+| cv32e20x_imc_fpga           | FPGA            | RV32IMC           |  No       |  Yes      |         |
++-----------------------------+-----------------+-------------------+-----------+-----------+---------+
+| cv32e20x_emc_asic           | ASIC            | RV32EMC           |  No       |  Yes      |         |
++-----------------------------+-----------------+-------------------+-----------+-----------+---------+
+| cv32e20x_imc_asic           | ASIC            | RV32IMC           |  No       |  Yes      |         |
++-----------------------------+-----------------+-------------------+-----------+-----------+---------+
 
 It is not possible to verify all 2\ :sup:`n` combinations of design
-parameters. Below is the list of golden configurations that will undergo
-verification in the project and their main parameters. The full list of
-parameters for each golden configuration are detailed in the user guide.
-
-+----------------------------+-----------------+----------------------+-------+
-| **Configuration**          | **Target**      | **RV32{E,I} ISA**    |**TRL**|
-+----------------------------+-----------------+----------------------+-------+
-| cv32e2_emc_fpga            | :term:`FPGA`    | RV32EMC              |       |
-+----------------------------+-----------------+----------------------+-------+
-| cv32e2_imc_fpga            | FPGA            | RV32IMC              |       |
-+----------------------------+-----------------+----------------------+-------+
-| cv32e2_emc_asic            | :term:`ASIC`    | RV32EMC              |       |
-+----------------------------+-----------------+----------------------+-------+
-| cv32e2_imc_asic            | ASIC            | RV32IMC              |       |
-+----------------------------+-----------------+----------------------+-------+
+parameters. The list of configurations and their main parameters that will 
+undergo thorough verification is set by the "Golden" column of the table. 
+The full list of parameters for each golden configuration are detailed in 
+the user guide.
 
 References
 ==========
@@ -179,6 +196,9 @@ identify the versions of RISC-V extensions from these specifications.
 
 .. [OPENHW-OBI] OpenHW Open Bus Interface (OBI) protocol, version 1.4,
    https://github.com/openhwgroup/obi/blob/main/OBI-v1.4.pdf
+
+.. [X-IF] OpenHW Group Specification: Core-V eXtension interface (CV-X-IF), version v1.0.0,
+   https://github.com/openhwgroup/core-v-xif/releases/tag/v1.0.0
 
 .. [AMBA-AHB] “AMBA® AHB Protocol Specification”, ARM IHI 0033C (ID090921),
    https://developer.arm.com/documentation/ihi0033/latest
@@ -676,13 +696,13 @@ Coprocessor interface
 
 +--------+-------------------------------------------------------------+
 | XIF-10 | For *subsequent* core implementations, CV32E20 shall        |
-|        | support the coprocessor interface compliant with [CV-X-IF]  |
+|        | support the coprocessor interface compliant with [X-IF]     |
 |        | to extend the supported instructions. The goal is a set of  |
 |        | compatible interfaces between the CORE-V cores, for         |
 |        | example, CV32E40{P,S,X}, CV32E20, …                         |
 |        |                                                             |
 |        | The initial version of CV32E20 shall not support the        |
-|        | CV-X-IF coprocessor interface.                              |
+|        | :term:`CV-X-IF` coprocessor interface.                      |
 +--------+-------------------------------------------------------------+
 
 PPA targets
@@ -716,13 +736,8 @@ integrated in the continuous integration flow.
 |        | CV32E20\_?\_fpga configuration on Kintex 7 FPGA technology. |
 |        |                                                             |
 |        | Metric details to be supplied later.                        |
-+--------+-------------------------------------------------------------+
-| PPA-50 | CV32E20 should operate at more than ? MHz in the            |
-|        | CV32E20\_? configuration on 16-nm FFT technology in the     |
-|        | worst-case frequency corner with the fastest threshold      |
-|        | voltage.                                                    |
-|        |                                                             |
-|        | Metric details to be supplied later.                        |
+.. TODO PPA-30 Clock frequency requirement on a FPGA implementation
+.. TODO PPA-50 Clock frequency requirement on an (16nm FinFET) ASIC implementation
 +--------+-------------------------------------------------------------+
 
 Physical design rules
@@ -793,7 +808,7 @@ List of abbreviations
       Control and Status Register
 
    CV-X-IF
-      Core-V Coprocessor (X) Interface
+      Core-V eXtension Interface
 
    DTM
       Debug Transport Module

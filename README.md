@@ -1,9 +1,9 @@
-# OpenHW Group CORE-V CVE2 RISC-V IP
+# OpenHW Foundation CORE-V CVE2 RISC-V IP
 
-CVE2 is a class of 2-stage pipeline OpenHW Group cores. Currently, the only core in this class is the CV32E20.
+CVE2 is a class of 2-stage pipeline OpenHW Foundation cores. Currently, the only core in this class is the CV32E20.
 CV32E20 is a fork of the [Ibex](https://github.com/lowRISC/ibex) core.
-Differently to Ibex, cv32e2 will target low cost as originally intended in the [Zero-riscy](https://doi.org/10.1109/PATMOS.2017.8106976) project.
-The core will be made compatible with the OpenHW Group OBI protocol, it will use the same sleep unit of CV32E4 family, and it will achieve TRL5 with the industrial-level verification [core-v-verif](https://github.com/openhwgroup/core-v-verif).
+Differently to Ibex, CV32E20 will target low cost as originally intended in the [Zero-riscy](https://doi.org/10.1109/PATMOS.2017.8106976) project.
+The core will be made compatible with the OpenHW Foundation OBI protocol, it will use the same sleep unit of CV32E4 family, and it will achieve TRL5 with the industrial-level verification [core-v-verif](https://github.com/openhwgroup/core-v-verif).
 
 # CV32E20 RISC-V Core
 
@@ -21,7 +21,7 @@ pipeline.
 CV32E20 was initially developed as part of the [PULP platform](https://www.pulp-platform.org)
 under the name [&#34;Zero-riscy&#34;](https://doi.org/10.1109/PATMOS.2017.8106976), and has been
 contributed to [lowRISC](https://www.lowrisc.org) who maintains it and develops it further.
-It was further adopted by the OpenHW Group to work towards an improved industrialization
+It was further adopted by the OpenHW Foundation to work towards an improved industrialization use through extensive verification, with the aid of the [Core-V Verification](https://github.com/openhwgroup/cv32e20-dv) environment.
 
 ## Verification
 
@@ -29,7 +29,7 @@ The verification environment for the CVE2 is _not_ in this Repository.  There is
 useful for experimentation only and should not be used to validate any changes to the RTL prior to pushing to the master
 branch of this repo.
 
-The verification environment for this core as well as other cores in the OpenHW Group CORE-V family is at the
+The verification environment for this core as well as other cores in the OpenHW Foundation CORE-V family is at the
 [core-v-verif](https://github.com/openhwgroup/core-v-verif) repository on GitHub.
 
 The Makefiles supported in the **core-v-verif** project automatically clone the appropriate version of the **cve2** RTL sources.
@@ -39,7 +39,7 @@ The Makefiles supported in the **core-v-verif** project automatically clone the 
 A changelog is generated automatically in the documentation from the individual pull requests.
 In order to enable automatic changelog generation within the documentation, the committer is required to label each pull request
 that touches any file in 'rtl' (or any of its subdirectories) with *Component:RTL* and label each pull request that touches any file in
-'docs' (or any of its subdirectories) with *Component:Doc*. Pull requests taht are not labeled or labeled with *ignore-for-release* are
+'docs' (or any of its subdirectories) with *Component:Doc*. Pull requests that are not labeled or labeled with *ignore-for-release* are
 ignored for the changelog generation.
 
 Only the person who actually performs the merge can add these labels (you need committer rights). The changelog flow only works if at most
@@ -100,8 +100,7 @@ please:
 * Split large contributions into smaller commits addressing individual changes or bug fixes. Do not
   mix unrelated changes into the same commit!
 * Do not mix updates within the 'rtl' directory with updates within the 'docs' directory into the same pull request.
-* Write meaningful commit messages. For more information, please check out the [the Ibex contribution
-  guide](https://github.com/lowrisc/ibex/blob/master/CONTRIBUTING.md).
+* Write meaningful commit messages. For more information, please check out the [CVE2 contribution guide](CONTRIBUTING.md).
 * If asked to modify your changes, do fix up your commits and rebase your branch to maintain a
   clean history.
 * If the PR gets accepted and merged into the **dev** branch, an action is triggered automatically to check whether the changes are logically equivalent to the frozen RTL on a given set of parameters. If the changes are logically equivalent, the **dev** branch is automatically merged into the **master** branch. Otherwise, we need to investigate manually. If a bug is found, thus the changes are not logically equivalent, we follow the procedure documented [here](https://docs.openhwgroup.org/projects/cv32e40p-user-manual/core_versions.html).
