@@ -737,6 +737,7 @@ integrated in the continuous integration flow.
 |        |                                                             |
 |        | Metric details to be supplied later.                        |
 .. TODO PPA-30 Clock frequency requirement on a FPGA implementation
+.. TODO PPA-50 Clock frequency requirement on an (16nm FinFET) ASIC implementation
 +--------+-------------------------------------------------------------+
 
 Physical design rules
