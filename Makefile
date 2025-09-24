@@ -1,6 +1,32 @@
 CVE2_CONFIG ?= small
 
 FUSESOC_CONFIG_OPTS = $(shell ./util/cve2_config.py $(CVE2_CONFIG) fusesoc_opts)
+FUSESOC_VERSION := $(shell fusesoc --version 2>/dev/null)
+FUSESOC_REQUIRED_VERSION := 0.1
+
+
+define PYTHON_REQ_INSTR
+Please install the required Python packages with 
+'python3 -m pip install --upgrade -r python-requirements.txt'.
+Use a virtual environment if you prefer, for example:
+
+python3 -m venv venv_cve2/
+source venv_cve2/bin/activate
+python3 -m pip install --upgrade -r python-requirements.txt
+...
+deactivate
+
+endef
+
+# Check if fusesoc is installed and it uses lowRISC's port
+ifeq (, $(shell which fusesoc 2>/dev/null))
+  $(error FuseSoC is not installed. $(PYTHON_REQ_INSTR))
+endif
+
+ifneq ($(FUSESOC_VERSION),$(FUSESOC_REQUIRED_VERSION))
+  $(warning The version of FuseSoC available ($(FUSESOC_VERSION)) is probably \
+    not sourced by lowRISC's ($(FUSESOC_REQUIRED_VERSION)). $(PYTHON_REQ_INSTR))
+endif
 
 all: help
 
