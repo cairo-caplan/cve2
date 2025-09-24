@@ -20,6 +20,7 @@ SEC_BUILD_DIR="$CVE2_REPO_BASE/build/sec/"
 
 if [ ! -d $SEC_BUILD_DIR ]; then
     mkdir -p $SEC_BUILD_DIR
+    touch "$SEC_BUILD_DIR/FUSESOC_IGNORE"
 fi
 
 usage() {                                 # Function: Print a help message.
