@@ -10,13 +10,9 @@ filesets:
     depend:
       - openhwgroup:cve2:cve2_top
       - openhwgroup:cve2:cve2_tracer
+      - openhwgroup:cve2:cve2_clock_gate
     files:
       - rtl/cve2_top_tracing.sv
-    file_type: systemVerilogSource
-
-  files_clk_gate:
-    files:
-      - rtl/cve2_clock_gate.sv
     file_type: systemVerilogSource
 
 parameters:
@@ -55,7 +51,6 @@ targets:
   default: &default_target
     filesets:
       - files_rtl
-      - target_sim ? (files_clk_gate)
     parameters:
       - RVFI=true
     toplevel: cve2_top_tracing
@@ -69,8 +64,6 @@ targets:
       - RV32M
       - MHPMCounterNum
       - MHPMCounterWidth
-    filesets_append:
-    - files_clk_gate
     default_tool: verilator
     tools:
       verilator:

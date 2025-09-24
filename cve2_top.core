@@ -11,6 +11,7 @@ filesets:
     depend:
       - openhwgroup:cve2:cve2_pkg
       - openhwgroup:cve2:cve2_core
+      - openhwgroup:cve2:cve2_clock_gate
       - lowrisc:prim:buf
       - lowrisc:prim:clock_mux2
       - lowrisc:prim:flop
@@ -31,11 +32,6 @@ filesets:
   files_check_tool_requirements:
     depend:
      - lowrisc:tool:check_tool_requirements
-
-  files_clk_gate:
-    files:
-      - rtl/cve2_clock_gate.sv
-    file_type: systemVerilogSource
 
 parameters:
   RVFI:
@@ -85,7 +81,6 @@ targets:
       - tool_verilator ? (files_lint_verilator)
       - tool_veriblelint ? (files_lint_verible)
       - files_rtl
-      - target_sim ? (files_clk_gate)
     toplevel: cve2_top
     parameters:
       - tool_vivado ? (FPGA_XILINX=true)
@@ -99,8 +94,6 @@ targets:
       - MHPMCounterWidth
       - RV32E
       - RV32M
-    filesets_append:
-    - files_clk_gate
     default_tool: verilator
     tools:
       verilator:
