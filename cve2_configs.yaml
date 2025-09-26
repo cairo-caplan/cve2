@@ -13,8 +13,4 @@ small:
   MHPMCounterWidth         : 40
   RV32E                    : 0
   RV32M                    : "cve2_pkg::RV32MFast"
-  # RV32B                    : "cve2_pkg::RV32BNone"
-  # PMPEnable                : 0
-  # PMPGranularity           : 0
-  # PMPNumRegions            : 4
 

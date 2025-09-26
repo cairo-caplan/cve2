@@ -114,7 +114,6 @@ module cve2_riscv_compliance (
       .rst_ni                 (rst_sys_n              ),
 
       .test_en_i              ('b0                    ),
-      // .scan_rst_ni            (1'b1                   ),
       .ram_cfg_i              ('b0                    ),
 
       .hart_id_i              (32'b0                  ),
@@ -126,7 +125,6 @@ module cve2_riscv_compliance (
       .instr_rvalid_i         (host_rvalid[CoreI]     ),
       .instr_addr_o           (host_addr[CoreI]       ),
       .instr_rdata_i          (host_rdata[CoreI]      ),
-      // .instr_rdata_intg_i     ('0                     ),
       .instr_err_i            (host_err[CoreI]        ),
 
       .data_req_o             (host_req[CoreD]        ),
@@ -136,9 +134,7 @@ module cve2_riscv_compliance (
       .data_be_o              (host_be[CoreD]         ),
       .data_addr_o            (host_addr[CoreD]       ),
       .data_wdata_o           (host_wdata[CoreD]      ),
-      // .data_wdata_intg_o      (                       ),
       .data_rdata_i           (host_rdata[CoreD]      ),
-      // .data_rdata_intg_i      ('0                     ),
       .data_err_i             (host_err[CoreD]        ),
 
       .x_issue_valid_o        (                       ),
@@ -161,22 +157,13 @@ module cve2_riscv_compliance (
       .irq_fast_i             (15'b0                  ),
       .irq_nm_i               (1'b0                   ),
 
-      // .scramble_key_valid_i   ('0                     ),
-      // .scramble_key_i         ('0                     ),
-      // .scramble_nonce_i       ('0                     ),
-      // .scramble_req_o         (                       ),
-
       .debug_req_i            ('b0                    ),
       .debug_halted_o         (                       ),
       .dm_halt_addr_i         (32'h00000000           ),
       .dm_exception_addr_i    (32'h00000000           ),
       .crash_dump_o           (                       ),
-      // .double_fault_seen_o    (                       ),
 
       .fetch_enable_i         (1'b1                   ),
-      // .alert_minor_o          (                       ),
-      // .alert_major_internal_o (                       ),
-      // .alert_major_bus_o      (                       ),
       .core_sleep_o           (                       )
     );
 
