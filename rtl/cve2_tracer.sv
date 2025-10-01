@@ -760,6 +760,8 @@ module cve2_tracer (
   end
 
   always_comb begin
+    // Disabling multidriven lint check since this is simulation code, not RTL,
+    // and these are initial values for these variables.
     /* verilator lint_off MULTIDRIVEN */
     decoded_str = "";
     data_accessed = 5'h0;
