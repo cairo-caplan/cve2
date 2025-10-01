@@ -124,7 +124,7 @@ module cve2_top import cve2_pkg::*; #(
   // Scrambling Parameter
   localparam int unsigned NumAddrScrRounds  = 0;
 
-  // Physical Memory Protection
+  // Physical Memory Protection (always disabled following PVL-40)
   localparam bit          PMPEnable        = 1'b0;
   localparam int unsigned PMPGranularity   = 0;
   localparam int unsigned PMPNumRegions    = 4;

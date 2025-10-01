@@ -255,6 +255,8 @@ independent requirements. All bases and extensions are specified in
 |        | (ratified).                                                   |
 +--------+---------------------------------------------------------------+
 
+.. _pvl_reqs:
+
 Operating modes (Privilege Levels)
 ----------------------------------
 
@@ -736,9 +738,10 @@ integrated in the continuous integration flow.
 |        | CV32E20\_?\_fpga configuration on Kintex 7 FPGA technology. |
 |        |                                                             |
 |        | Metric details to be supplied later.                        |
++--------+-------------------------------------------------------------+
+
 .. TODO PPA-30 Clock frequency requirement on a FPGA implementation
 .. TODO PPA-50 Clock frequency requirement on an (16nm FinFET) ASIC implementation
-+--------+-------------------------------------------------------------+
 
 Physical design rules
 ---------------------
@@ -838,7 +841,7 @@ List of abbreviations
       CPU Load/Store Unit
       
    MCU
-      Microcontroller
+      Microcontroller Unit
       
    MHz
       Megahertz
