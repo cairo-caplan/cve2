@@ -1,3 +1,4 @@
+# Copyright (c) 2025 Eclipse Foundation
 # Copyright lowRISC contributors.
 # Licensed under the Apache License, Version 2.0, see LICENSE for details.
 # SPDX-License-Identifier: Apache-2.0
@@ -51,7 +52,7 @@ set lr_synth_clk_input clk_i
 set lr_synth_rst_input rst_ni
 
 # clock period in ps, this gives a 250 MHz clock.  using the nangate45 library
-# Ibex can happily meet this on all paths with the lr_synth_abc_clk_uprate
+# CVE2 can happily meet this on all paths with the lr_synth_abc_clk_uprate
 # setting below. With a lower uprate timing may not be met.
 set lr_synth_clk_period 4000.0
 

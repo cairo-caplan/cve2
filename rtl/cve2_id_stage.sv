@@ -1,3 +1,4 @@
+// Copyright (c) 2025 Eclipse Foundation
 // Copyright lowRISC contributors.
 // Copyright 2018 ETH Zurich and University of Bologna, see also CREDITS.md.
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
@@ -381,7 +382,7 @@ module cve2_id_stage #(
       default:         imm_b = 32'h4;
     endcase
   end
-  `ASSERT(IbexImmBMuxSelValid, instr_valid_i |-> imm_b_mux_sel inside {
+  `ASSERT(CVE2ImmBMuxSelValid, instr_valid_i |-> imm_b_mux_sel inside {
       IMM_B_I,
       IMM_B_S,
       IMM_B_B,
@@ -889,8 +890,8 @@ module cve2_id_stage #(
   ////////////////
 
   // Selectors must be known/valid.
-  `ASSERT_KNOWN_IF(IbexAluOpMuxSelKnown, alu_op_a_mux_sel, instr_valid_i)
-  `ASSERT(IbexAluAOpMuxSelValid, instr_valid_i |-> alu_op_a_mux_sel inside {
+  `ASSERT_KNOWN_IF(CVE2AluOpMuxSelKnown, alu_op_a_mux_sel, instr_valid_i)
+  `ASSERT(CVE2AluAOpMuxSelValid, instr_valid_i |-> alu_op_a_mux_sel inside {
       OP_A_REG_A,
       OP_A_FWD,
       OP_A_CURRPC,
@@ -909,15 +910,15 @@ module cve2_id_stage #(
   `ASSERT_KNOWN(IbexWbStateKnown, id_fsm_q)
 
   // Branch decision must be valid when jumping.
-  `ASSERT_KNOWN_IF(IbexBranchDecisionValid, branch_decision_i,
+  `ASSERT_KNOWN_IF(CVE2BranchDecisionValid, branch_decision_i,
       instr_valid_i && !(illegal_csr_insn_i || instr_fetch_err_i))
 
   // Instruction delivered to ID stage can not contain X.
-  `ASSERT_KNOWN_IF(IbexIdInstrKnown, instr_rdata_i,
+  `ASSERT_KNOWN_IF(CVE2IdInstrKnown, instr_rdata_i,
       instr_valid_i && !(illegal_c_insn_i || instr_fetch_err_i))
 
   // Instruction delivered to ID stage can not contain X.
-  `ASSERT_KNOWN_IF(IbexIdInstrALUKnown, instr_rdata_alu_i,
+  `ASSERT_KNOWN_IF(CVE2IdInstrALUKnown, instr_rdata_alu_i,
       instr_valid_i && !(illegal_c_insn_i || instr_fetch_err_i))
 
   // Multicycle enable signals must be unique.
@@ -927,10 +928,10 @@ module cve2_id_stage #(
   // Duplicated instruction flops must match
   // === as DV environment can produce instructions with Xs in, so must use precise match that
   // includes Xs
-  `ASSERT(IbexDuplicateInstrMatch, instr_valid_i |-> instr_rdata_i === instr_rdata_alu_i)
+  `ASSERT(CVE2DuplicateInstrMatch, instr_valid_i |-> instr_rdata_i === instr_rdata_alu_i)
 
   `ifdef CHECK_MISALIGNED
-  `ASSERT(IbexMisalignedMemoryAccess, !lsu_addr_incr_req_i)
+  `ASSERT(CVE2MisalignedMemoryAccess, !lsu_addr_incr_req_i)
   `endif
 
 endmodule

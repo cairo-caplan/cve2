@@ -12,7 +12,7 @@ pyyaml
 mako
 junit-xml
 
-# Needed by dvsim.py (not actually used in Ibex)
+# Needed by dvsim.py (not actually used in CVE2)
 hjson
 mistletoe>=0.7.2
 # Premailer 3.9.0 broke the API by introducing an allow_loading_external_files
@@ -22,4 +22,7 @@ mistletoe>=0.7.2
 premailer < 3.9.0
 
 # Recurse to get any requirements from riscv-dv
--r vendor/google_riscv-dv/requirements.txt
+# -r vendor/google_riscv-dv/requirements.txt
+
+# Used by python-lint
+mypy

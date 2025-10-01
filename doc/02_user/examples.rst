@@ -20,3 +20,11 @@ The CV32E20 (a specific configuration of the CVE2) has been integrated into the 
 X-HEEP is a RISC-V microcontroller implemented in SystemVerilog that can be configured to integrate a number of CORE-V processors.
 X-HEEP provides a simple customizable MCU to get you up and running quickly.
 
+CROC
+----
+
+The CV32E20 has also been integrated into the `CROC <https://github.com/pulp-platform/croc>`_ project (An End-to-End Open-Source Extensible RISC-V MCU Platform to Democratize Silicon).
+CROC is a PULP platform SoC for education, easy to understand and extend with a full flow for a physical design. It states it contains all the necessary scripts to produce an SoC containing the CVE2 on `IHPs open-source 130nm technology <https://github.com/IHP-GmbH/IHP-Open-PDK/tree/main>`_.
+
+
+

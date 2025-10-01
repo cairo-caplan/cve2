@@ -41,3 +41,6 @@ modelsim.ini
 /scripts/sec/revised.src
 /scripts/sec/reports
 /scripts/sec/ref_design
+
+# Python Virtual Environment directory eventually created
+venv_cve2

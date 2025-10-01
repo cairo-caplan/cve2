@@ -23,7 +23,7 @@
 #-------------------------------------------------------------------------
 rm -Rf build lec_out
 fusesoc --cores-root .. run --tool=icarus --target=lint \
-  --setup "lowrisc:cve2:cve2_top" > /dev/null 2>&1
+  --setup "openhwgroup:cve2:cve2_top" > /dev/null 2>&1
 
 # copy all files to lec_out
 mkdir lec_out
@@ -52,9 +52,9 @@ done
 # remove *pkg.v files (they are empty files and not needed)
 rm -f *_pkg.v prim_assert.v prim_util_memload.v
 
-# overwrite the prim_clock_gating modules with the module from ../rtl
-cp ../rtl/prim_clock_gating.v .
-cp ../rtl/prim_clock_gating.v prim_clock_gating.sv
+# # overwrite the prim_clock_gating modules with the module from ../rtl
+# cp ../rtl/prim_clock_gating.v .
+# cp ../rtl/prim_clock_gating.v prim_clock_gating.sv
 
 #-------------------------------------------------------------------------
 # run LEC (generated Verilog vs. original SystemVerilog)

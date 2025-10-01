@@ -1,16 +1,17 @@
 CAPI=2:
+# Copyright (c) 2025 Eclipse Foundation
 # Copyright lowRISC contributors.
 # Licensed under the Apache License, Version 2.0, see LICENSE for details.
 # SPDX-License-Identifier: Apache-2.0
 
-name: "lowrisc:fpv:cve2_data_ind_timing:0.1"
+name: "openhwgroup:fpv:cve2_data_ind_timing:0.1"
 description: "Formal test for data independent timing"
 
 filesets:
   testbench:
     depend:
-      - lowrisc:cve2:cve2_pkg
-      - lowrisc:cve2:cve2_multdiv
+      - openhwgroup:cve2:cve2_pkg
+      - openhwgroup:cve2:cve2_multdiv
       - lowrisc:util:sv2v
     files:
       - run.sby.j2 : {file_type: sbyConfigTemplate}

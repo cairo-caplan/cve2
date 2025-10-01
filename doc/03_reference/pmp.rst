@@ -3,6 +3,9 @@
 Physical Memory Protection (PMP)
 ================================
 
+.. note::
+   CVE2 does not officially support Physical Memory Protection (PMP), as defined by :ref:`PVL-40 <pvl_reqs>`. This feature is always disabled.
+
 The Physical Memory Protection (PMP) unit is a `potential future design enhancement on the CVE2 <https://github.com/openhwgroup/programs/blob/master/Project-Descriptions-and-Plans/CVE20/Project-Concept-for-CV32E20.md#potential-future-design-enhancements>`_ that implements region-based memory access checking in-accordance with the RISC-V Privileged Specification, version 1.11, and includes the Trusted Execution Environment (TEE) working group proposal `PMP Enhancements for memory access and execution prevention on Machine mode (Smepmp) version 0.9.3 <https://github.com/riscv/riscv-tee/blob/61455747230a26002d741f64879dd78cc9689323/Smepmp/Smepmp.pdf>`_.
 The following local parameters are available to control PMP checking:
 

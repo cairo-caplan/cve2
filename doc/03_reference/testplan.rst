@@ -1,13 +1,13 @@
 .. _testplan:
 
+Test Plan
+=========
+
 .. note::
 
   This testplan is a work in progress still being implemented, so this document may not match the implemented verification in the repository.
   .. TODO This needs to be updated following https://github.com/openhwgroup/cve2/issues/281
-  
 
-.. Test Plan
-.. =========
 
 .. Goals
 .. -----

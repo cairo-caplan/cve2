@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Copyright 2023-2025 OpenHW Foundation
+# Copyright (c) 2025 Eclipse Foundation
+# Copyright 2023 OpenHW Group
 #
 # Licensed under the Solderpad Hardware Licence, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,6 +14,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+CVE2_REPO_BASE="$(readlink -f -- "$( dirname -- "$( readlink -f -- "$0"; )"; )/../../")"
+SEC_BUILD_DIR="$CVE2_REPO_BASE/build/sec/"
+
+if [ ! -d $SEC_BUILD_DIR ]; then
+    mkdir -p $SEC_BUILD_DIR
+    touch "$SEC_BUILD_DIR/FUSESOC_IGNORE"
+fi
 
 usage() {                                 # Function: Print a help message.
   echo "Usage: $0 [ -t {cadence,mentor,synopsys,yosys} ]" 1>&2
@@ -40,8 +49,8 @@ do
     esac
 done
 
-if [ ! -d ./reports/ ]; then
-    mkdir -p ./reports/
+if [ ! -d "$SEC_BUILD_DIR/reports/" ]; then
+    mkdir -p "$SEC_BUILD_DIR/reports/"
 fi
 
 if [[ "${target_tool}" != "cadence" && "${target_tool}" != "synopsys" 
@@ -49,30 +58,28 @@ if [[ "${target_tool}" != "cadence" && "${target_tool}" != "synopsys"
     exit_abnormal
 fi
 
+GOLDEN_DIR=$(readlink -f $SEC_BUILD_DIR/ref_design/)
 if [[ -z "${GOLDEN_RTL}" ]]; then
     echo "The env variable GOLDEN_RTL is empty."
-    if [ ! -d "./ref_design" ]; then
+    if [ ! -d "$SEC_BUILD_DIR/ref_design" ]; then
         echo "Cloning Golden Design...."
-        git clone https://github.com/openhwgroup/cve2.git ref_design
+        git clone https://github.com/openhwgroup/cve2.git $GOLDEN_DIR
     fi
-    export GOLDEN_RTL=$(pwd)/ref_design/rtl
+    export GOLDEN_RTL=$GOLDEN_DIR/rtl
 else
     echo "SEC: Using ${GOLDEN_RTL} as reference design"
 fi
 
-REVISED_DIR=$( readlink -f $(pwd)/../../)
-
-GOLDEN_DIR=$(readlink -f ./ref_design/)
-
+REVISED_DIR=$CVE2_REPO_BASE
 
 var_golden_rtl=$(awk '{ if ($0 ~ "{DESIGN_RTL_DIR}" && $0 !~ "#" && $0 !~ "tracer" && $0 !~ "wrapper") print $0 }' ${GOLDEN_DIR}/cv32e20_manifest.flist | sed 's|${DESIGN_RTL_DIR}|./ref_design/rtl/|')
 
 var_revised_rtl=$(awk '{ if ($0 ~ "{DESIGN_RTL_DIR}" && $0 !~ "#" && $0 !~ "tracer" && $0 !~ "wrapper") print $0 }' ${REVISED_DIR}/cv32e20_manifest.flist | sed 's|${DESIGN_RTL_DIR}|../../rtl/|')
 
-echo $var_golden_rtl > golden.src
-echo $var_revised_rtl > revised.src
+echo $var_golden_rtl > "$SEC_BUILD_DIR/golden.src"
+echo $var_revised_rtl > "$SEC_BUILD_DIR/revised.src"
 
-report_dir=$(readlink -f $(dirname "${BASH_SOURCE[0]}"))/reports/$(date +%Y-%m-%d/%H-%M)/
+report_dir="$SEC_BUILD_DIR/reports/$(date +%Y-%m-%d/%H-%M)/"
 
 if [[ -d ${report_dir} ]]; then
     rm -rf ${report_dir}
@@ -84,47 +91,50 @@ if [[ "${target_tool}" == "cadence" ]]; then
     jg -sec -proj ${report_dir} -batch -tcl ${tcl_script} -define report_dir ${report_dir} &> ${report_dir}/output.cadence.log
 
     if [ ! -f ${report_dir}/summary.cadence.log ]; then
-        echo "Something went wrong during the process"
+        echo "Something went wrong during the process" 1>&2
         exit 1
     fi
     grep -Eq "Overall SEC status[ ]+- Complete" ${report_dir}/summary.cadence.log
     RESULT=$?
 
 elif [[ "${target_tool}" == "synopsys" ]]; then
-    echo "Synopsys tool is not implemented yet"
+    echo "Synopsys tool is not implemented yet" 1>&2
     exit 1
 
 elif [[ "${target_tool}" == "mentor" ]]; then
-    echo "Mentor tool is not implemented yet"
+    echo "Mentor tool is not implemented yet" 1>&2
     exit 1
 
 elif [[ "${target_tool}" == "yosys" ]]; then
     echo "Using Yosys EQY"
+    mkdir -p "$SEC_BUILD_DIR/yosys"
 
     if ! [ -x "$(command -v eqy)" ]; then
-        echo "Yosys EQY (eqy) could not be found"
+        echo "Yosys EQY (eqy) could not be found" 1>&2
         exit 1
     fi
 
-    eqy -f yosys/sec.eqy -j $(($(nproc)/2)) -d ${report_dir} &> /dev/null
+    (cd $SEC_BUILD_DIR && \
+        eqy -f $CVE2_REPO_BASE/scripts/sec/yosys/sec.eqy -j $(($(nproc)/2)) -d ${report_dir} &> /dev/null
+    )
     mv ${report_dir}/logfile.txt ${report_dir}/output.yosys.log
-    rm yosys/golden_io.txt
+    rm "$SEC_BUILD_DIR/yosys/golden_io.txt"
 
     if [ -f "${report_dir}/PASS" ]; then 
         RESULT=0
     elif [ -f "${report_dir}/FAIL" ]; then 
         RESULT=1
-        echo "Check ${report_dir}/output.yosys.log"
+        echo "Check ${report_dir}/output.yosys.log" 1>&2
     else
-        echo "Failed to run Yosys EQY"
+        echo "Failed to run Yosys EQY" 1>&2
         exit 1
     fi
 fi
 
 if [[ $RESULT == 0 ]]; then
-    echo "SEC: The DESIGN IS SEQUENTIAL EQUIVALENT"
+    echo "SEC: The DESIGN IS SEQUENTIALLY EQUIVALENT"
     exit 0
 else
-    echo "SEC: The DESIGN IS NOT SEQUENTIAL EQUIVALENT"
+    echo "SEC: The DESIGN IS NOT SEQUENTIALLY EQUIVALENT" 1>&2
     exit 1
 fi
