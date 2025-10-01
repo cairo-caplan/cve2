@@ -21,8 +21,8 @@ module cve2_clock_gate (
 );
 
   // `ifdef SYNTHESIS
-  //   `error "cve2_clock_gate module is meant for simulation only. " \ 
-  //          "It should not be used for ASIC or FPGA synthesis"
+  //   $error("cve2_clock_gate module is meant for simulation only. \
+  //          It should not be used for ASIC or FPGA synthesis");
   // `endif
 
   logic clk_en;
