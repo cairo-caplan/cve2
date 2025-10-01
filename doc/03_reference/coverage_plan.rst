@@ -1,12 +1,14 @@
 .. _coverage-plan:
 
+Coverage Plan
+=============
+
+
+.. note::
+  Work to implement the functional coverage described in this plan is ongoing and the plan itself is not yet complete.
 .. TODO This needs to be updated following https://github.com/openhwgroup/cve2/issues/281
 
-.. Coverage Plan
-.. =============
 
-.. .. note::
-..   Work to implement the functional coverage described in this plan is on-going and the plan itself is not yet complete.
 
 .. Introduction
 .. ------------

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-#  Copyright (c) 2020, 2023 OpenHW Foundation
+#  Copyright (c) 2025 Eclipse Foundation
+#  Copyright (c) 2020, 2023 OpenHW Group
 #
 #  Licensed under the Solderpad Hardware Licence, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -38,7 +39,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'CV32E20 Documentation'
-copyright = '2017-2018, ETH Zurich and University of Bologna, 2018-2022 lowRISC, 2022-2025 OpenHW Foundation'
+copyright = '2017-2018, ETH Zurich and University of Bologna, 2018-2022 lowRISC, 2022-2024 OpenHW Group, 2025 Eclipse Foundation'
 author = 'OpenHW Foundation'
 
 # The short X.Y version
