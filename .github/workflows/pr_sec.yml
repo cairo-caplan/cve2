@@ -1,0 +1,58 @@
+# Copyright (c) 2025 Eclipse Foundation
+# SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+
+# Licensed under the Solderpad Hardware License v 2.1 (the “License”); 
+# you may not use this file except in compliance with the License, or, 
+# at your option, the Apache License version 2.0. You may obtain a copy
+#  of the License at
+# 
+# https://solderpad.org/licenses/SHL-2.1/
+# 
+# Unless required by applicable law or agreed to in writing, any work 
+# distributed under the License is distributed on an “AS IS” BASIS, 
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
+# implied. See the License for the specific language governing 
+# permissions and limitations under the License.
+
+name: Perform SEC on PRs with RTL changes
+
+on:
+  workflow_dispatch: {}
+  pull_request:
+    paths:
+      - 'rtl/**'
+
+jobs:
+  sec:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install FuseSoC from lowRISC
+        run: |
+          python3 -m venv venv_cve2/
+          source venv_cve2/bin/activate
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade -r python-requirements.txt
+          # Make the venv tools available to subsequent steps
+          echo "$PWD/venv_cve2/bin" >> $GITHUB_PATH
+
+      - name: Check FuseSoC version
+        run: |
+          echo "which fusesoc: $(which fusesoc || true)"
+          fusesoc --version || echo "fusesoc not found or failed to run"
+
+      # From https://github.com/marketplace/actions/setup-oss-cad-suite
+      - name: Install OSS CAD Suite
+        uses: YosysHQ/setup-oss-cad-suite@v3
+
+      - name: Check Yosys version
+        run: yosys --version || true
+
+      - name: Run SEC on the standard core configuration
+        run: make sec
+
+      - name: Run SEC on the eXtension InterFace configuration
+        run: make sec_XInterface
