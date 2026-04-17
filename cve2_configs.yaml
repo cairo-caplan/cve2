@@ -13,4 +13,5 @@ small:
   MHPMCounterWidth         : 40
   RV32E                    : 0
   RV32M                    : "cve2_pkg::RV32MFast"
+  XInterface               : true
 

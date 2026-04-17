@@ -22,6 +22,12 @@ parameters:
     paramtype: vlogdefine
     default: true
 
+  XInterface:
+    datatype: bool
+    description: Enable the Core-V eXtension Interface (XInterface/CV-X-IF)
+    default: true
+    paramtype: vlogparam
+
   SYNTHESIS:
     datatype: bool
     paramtype: vlogdefine
@@ -64,6 +70,7 @@ targets:
       - RV32M
       - MHPMCounterNum
       - MHPMCounterWidth
+      - XInterface=true
     default_tool: verilator
     tools:
       verilator:

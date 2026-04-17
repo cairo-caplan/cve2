@@ -24,6 +24,12 @@ filesets:
       - lint/verilator_waiver.vlt: {file_type: vlt}
 
 parameters:
+  XInterface:
+    datatype: bool
+    description: Enable the Core-V eXtension Interface (XInterface/CV-X-IF)
+    default: true
+    paramtype: vlogparam
+
   RV32E:
     datatype: int
     paramtype: vlogparam
@@ -57,6 +63,7 @@ targets:
       - RV32M
       - MHPMCounterNum
       - MHPMCounterWidth
+      - XInterface=true
     toplevel: cve2_riscv_compliance
     tools:
       verilator:
