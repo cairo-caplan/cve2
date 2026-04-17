@@ -20,6 +20,7 @@ module cve2_riscv_compliance (
   parameter int unsigned MHPMCounterWidth = 40;
   parameter bit RV32E                     = 1'b0;
   parameter cve2_pkg::rv32m_e RV32M       = cve2_pkg::RV32MFast;
+  parameter bit          XInterface       = 1'b0;
 
   logic clk_sys, rst_sys_n;
 
@@ -108,7 +109,8 @@ module cve2_riscv_compliance (
       .MHPMCounterNum  (MHPMCounterNum  ),
       .MHPMCounterWidth(MHPMCounterWidth),
       .RV32E           (RV32E           ),
-      .RV32M           (RV32M           )
+      .RV32M           (RV32M           ),
+      .XInterface      (XInterface      )
     ) u_top (
       .clk_i                  (clk_sys                ),
       .rst_ni                 (rst_sys_n              ),
