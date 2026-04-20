@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Eclipse Foundation
 // Copyright lowRISC contributors.
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
@@ -30,3 +31,10 @@
 //
 lint_off -rule WIDTH -file "*/rtl/cve2_riscv_compliance.sv"
          -match "*expects 1 bits*Initial value's CONST '32'h1'*"
+
+// Similar to ibex's #2355, Verilator since v5.042+ has a more 
+// agressive UNOPTFLAT, emitting circular combinational logic warnings 
+// that are expected, as the signals value do converge
+
+lint_off -rule UNOPTFLAT -file "*/rtl/cve2_id_stage.sv"
+         -match "*multicycle_done*"
