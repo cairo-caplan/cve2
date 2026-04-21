@@ -45,6 +45,7 @@ build-all: build-riscv-compliance
 # RISC-V compliance
 .PHONY: build-riscv-compliance
 build-riscv-compliance:
+	$(warning This generates a simulation model for the deprecated RISC-V compliance test, and it may be removed soon. Please check the 'make certify' command under sim/core/ of the CV32E20-DV project to run the novel RISC-V ACT4 tests.)"
 	fusesoc --cores-root=. run --target=sim --setup --build \
 		openhwgroup:cve2:cve2_riscv_compliance \
 		$(FUSESOC_CONFIG_OPTS)
