@@ -37,6 +37,8 @@ lint_off -rule UNOPTFLAT -file "*/rtl/cve2_controller.sv"
          -match "*special_req*"
 lint_off -rule UNOPTFLAT -file "*/rtl/cve2_controller.sv"
          -match "*id_in_ready_o*"
+lint_off -rule UNOPTFLAT -file "*/rtl/cve2_id_stage.sv"
+         -match "*multicycle_done*"
 
 // Operator expects 1 bit on initial value but initial value's CONST generates
 // 32 bits, need a specific RV32B waiver as it uses enums so the above catch-all
